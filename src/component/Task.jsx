@@ -1,6 +1,8 @@
 import React from 'react'
 import Box from './Box';
 import columns from './col'
+import checkImg from "../assets/check.png";
+
 
 function Task() {
     
@@ -20,12 +22,13 @@ function Task() {
               <span className="text-sm material-symbols-outlined">view_week</span>
               <span className="font-medium">Calendar view</span>
             </button>
-            <button className="text-slate-800 hover:text-slate-800">
-              <span className='material-symbols-outlined'></span>
-              <span className="">Completed</span>
+            <button className="text-slate-800 flex items-center gap-x-1 hover:text-slate-800">
+              <span className='text-sm material-symbols-outlined'>check</span>
+              Completed
             </button>
             <button className="inline-flex items-center gap-1 text-slate-800">
-              <span>Not Completed</span>
+              <span className='text-sm material-symbols-outlined'>cancel</span>
+              Not Completed
             </button>
           </div>
         </div>
