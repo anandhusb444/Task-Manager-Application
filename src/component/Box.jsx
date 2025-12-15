@@ -3,7 +3,7 @@ import columns from './col'
 
 function Box({columns}) {
     if (!columns) {
-    console.error("Box component received undefined column");
+    console.error("Box component received undefined   column");
     return null; // avoid crash
   }
   return (

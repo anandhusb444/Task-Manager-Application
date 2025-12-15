@@ -35,7 +35,7 @@ function Task() {
 
          {/* Columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {columns.map((col) => (
+          {columns.map((col) => ( 
             <Box key={col.id} columns={col} />   
           ))}
         </div>

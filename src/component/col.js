@@ -21,6 +21,13 @@ const columns = [
     showNewGroup: true,
     cards: [],
   },
+  {
+    id: 4,
+    title: "FFF",
+    count: 0,
+    showNewGroup: true,
+    cards: ["FATTTTTT BOOOYYYYY"],
+  },
 ];
 
 export default columns;
