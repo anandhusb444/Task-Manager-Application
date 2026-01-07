@@ -2,8 +2,9 @@ import React from 'react'
 import columns from './col'
 
 function Box({columns}) {
+  console.log("BOX:" + columns.title)
     if (!columns) {
-    console.error("Box component received undefined   column");
+    console.error("Box component received undefined column");
     return null; // avoid crash
   }
   return (
@@ -11,7 +12,7 @@ function Box({columns}) {
       {/* Column header */}
       <div className="flex items-center justify-between px-4 pt-3 pb-2 text-sm">
         <div className="font-medium text-slate-800">{columns.title}</div>
-        <div className="text-xs text-slate-400">{columns.count}</div>
+        <div className="text-xs text-slate-400">{}</div>
         {columns.showNewGroup && (
           <button className="ml-auto text-xs text-slate-500 hover:text-slate-800">
             + New group
@@ -21,15 +22,12 @@ function Box({columns}) {
 
       {/* Cards */}
       <div className="flex-1 px-4 pb-3 space-y-2">
-        {columns.cards.map((text, idx) => (
           <div
-            key={idx}
+            //key={idx}
             className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 break-words"
           >
-            {text}
+            {columns.description}
           </div>
-        ))}
-
         {/* New page button */}
         <button className="mt-1 inline-flex w-full items-center gap-2 rounded-lg border border-dashed border-slate-200 px-3 py-2 text-sm text-slate-500 hover:bg-slate-50">
           <span className="text-lg leading-none">＋</span>

@@ -1,10 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from './Box';
 import columns from './col'
 import checkImg from "../assets/check.png";
 
 
 function Task() {
+  const [userTask,setUserTask] = useState([])
+  const [error,setError] = useState("")
+  const [loading,setLoading] = useState(true)
+
+  const token = sessionStorage.getItem("Token")
+
+  console.log("local storage token" + token)
+
+  useEffect(() => {
+    fetch("https://localhost:7094/api/Tasks/Get",{
+      headers:{
+        "Authorization" : `Bearer ${token}`,
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(respones => {
+      if(!respones.ok){
+        alert("Unable to retrive tasks for the user")
+      }
+      return respones.json();
+    })
+    .then(objData => {
+      console.log(objData)
+      console.log("Actual data :" + objData.message)
+      setUserTask(objData.data)})
+    .catch(err => setError(err.message))
+    .finally(() => setLoading(false))
+  },[])
+
+  console.log(setUserTask)
     
   return (
      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
@@ -35,8 +65,8 @@ function Task() {
 
          {/* Columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {columns.map((col) => ( 
-            <Box key={col.id} columns={col} />   
+          {userTask.map((task) => ( 
+            <Box key={task.taskId} columns={task} />   
           ))}
         </div>
       </div>

@@ -31,6 +31,7 @@ function Login() {
 
         const data = await respones.json();
         alert(data.message);
+        sessionStorage.setItem("Token",data.data);
         navigate("/Home")
     }
     catch(error)
