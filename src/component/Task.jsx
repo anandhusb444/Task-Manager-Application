@@ -11,8 +11,6 @@ function Task() {
 
   const token = sessionStorage.getItem("Token")
 
-  console.log("local storage token" + token)
-
   useEffect(() => {
     fetch("https://localhost:7094/api/Tasks/Get",{
       headers:{
@@ -26,15 +24,10 @@ function Task() {
       }
       return respones.json();
     })
-    .then(objData => {
-      console.log(objData)
-      console.log("Actual data :" + objData.message)
-      setUserTask(objData.data)})
+    .then(objData => setUserTask(objData.data))
     .catch(err => setError(err.message))
     .finally(() => setLoading(false))
   },[])
-
-  console.log(setUserTask)
     
   return (
      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">

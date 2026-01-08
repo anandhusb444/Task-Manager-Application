@@ -1,41 +1,91 @@
-import React from 'react'
-import columns from './col'
+import React, { useState } from "react";
 
-function Box({columns}) {
-  console.log("BOX:" + columns.title)
-    if (!columns) {
-    console.error("Box component received undefined column");
-    return null; // avoid crash
-  }
+function Box({ columns }) {
+  if (!columns) return null;
+  console.log(columns)
+  const [items, setItems] = useState([
+    "edit",
+    "add another one",
+    "added other",
+  ]);
+
+  const [isAdding, setIsAdding] = useState(false);
+  const [newValue, setNewValue] = useState("");
+
+  const handleAdd = () => {
+    if (!newValue.trim()) return;
+    setItems([...items, newValue.trim()]);
+    console.log(items)
+    setNewValue("");
+    setIsAdding(false);
+  };
+
   return (
-    <div className="rounded-xl border border-slate-200 bg-white flex flex-col">
-      {/* Column header */}
-      <div className="flex items-center justify-between px-4 pt-3 pb-2 text-sm">
+    <div
+      className="
+        w-full sm:w-[320px]
+        rounded-xl border border-slate-200bg-white p-3 space-y-2">
         <div className="font-medium text-slate-800">{columns.title}</div>
-        <div className="text-xs text-slate-400">{}</div>
-        {columns.showNewGroup && (
-          <button className="ml-auto text-xs text-slate-500 hover:text-slate-800">
-            + New group
-          </button>
-        )}
-      </div>
-
-      {/* Cards */}
-      <div className="flex-1 px-4 pb-3 space-y-2">
+        <div
+          key={columns.taskId}
+          className="
+            flex items-center justify-between
+            rounded-lg border border-emerald-200 bg-white
+            px-3 py-3 sm:py-2
+            text-sm">
+          <span className="break-words">{columns.description}</span>
+          {/* Actions */}
           <div
-            //key={idx}
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 break-words"
-          >
-            {columns.description}
+            className="
+              flex items-center gap-3
+              text-slate-400
+              sm:opacity-0 sm:group-hover:opacity-100">
+            <button className="hover:text-slate-700 text-base">✏️</button>
+            <button className="hover:text-slate-700 text-base">⋯</button>
           </div>
-        {/* New page button */}
-        <button className="mt-1 inline-flex w-full items-center gap-2 rounded-lg border border-dashed border-slate-200 px-3 py-2 text-sm text-slate-500 hover:bg-slate-50">
-          <span className="text-lg leading-none">＋</span>
-          <span>New page</span>
+        </div>
+
+      {/* Inline input */}
+      {isAdding && (
+        <div
+          className="
+            flex items-center
+            rounded-lg border border-emerald-200 bg-white
+            px-3 py-3 sm:py-2
+          "
+        >
+          <input
+            autoFocus
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+            onBlur={() => { setNewValue(""); setIsAdding(false)}}
+            placeholder="Type a name..."
+            className="
+              w-full text-sm
+              outline-none placeholder-slate-400
+            "
+          />
+        </div>
+      )}
+
+      {/* + New page */}
+      {!isAdding && (
+        <button
+          onClick={() => setIsAdding(true)}
+          className="
+            flex w-full items-center gap-2
+            rounded-lg px-3 py-3 sm:py-2
+            text-sm font-medium 
+            hover:bg-emerald-50
+          "
+        >
+          <span className="text-lg">＋</span>
+          add task
         </button>
-      </div>
+      )}
     </div>
   );
 }
 
-export default Box
+export default Box;
