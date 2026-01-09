@@ -57,11 +57,27 @@ function Task() {
         </div>
 
          {/* Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="flex gap-4 overflow-x-auto">
           {userTask.map((task) => ( 
             <Box key={task.taskId} columns={task} />   
           ))}
-        </div>
+        <button
+          className="
+            min-w-[220px]
+            h-fit
+            flex items-center gap-1.5
+            rounded-lg
+            px-3 py-2
+            text-sm
+          text-slate-500
+          hover:bg-slate-100
+            border">
+  <span className="text-base leading-none">＋</span>
+  New group
+</button>
+
+    </div>
+
       </div>
     </div>
   );

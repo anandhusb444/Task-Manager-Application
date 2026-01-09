@@ -60,7 +60,7 @@ function Box({ columns }) {
             onChange={(e) => setNewValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
             onBlur={() => { setNewValue(""); setIsAdding(false)}}
-            placeholder="Type a name..."
+            placeholder="Enter task..."
             className="
               w-full text-sm
               outline-none placeholder-slate-400
