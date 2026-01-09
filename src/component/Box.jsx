@@ -2,13 +2,7 @@ import React, { useState } from "react";
 
 function Box({ columns }) {
   if (!columns) return null;
-  console.log(columns)
-  const [items, setItems] = useState([
-    "edit",
-    "add another one",
-    "added other",
-  ]);
-
+  
   const [isAdding, setIsAdding] = useState(false);
   const [newValue, setNewValue] = useState("");
 
@@ -77,8 +71,7 @@ function Box({ columns }) {
             flex w-full items-center gap-2
             rounded-lg px-3 py-3 sm:py-2
             text-sm font-medium 
-            hover:bg-emerald-50
-          "
+            hover:bg-emerald-50"
         >
           <span className="text-lg">＋</span>
           add task
