@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Box from './Box';
-import columns from './col'
-import checkImg from "../assets/check.png";
+import AddTaskModal from "./AddTaskModal"
 
 
 function Task() {
   const [userTask,setUserTask] = useState([])
   const [error,setError] = useState("")
   const [loading,setLoading] = useState(true)
+  const [openModal, setOpenModal] = useState(false);
+
+  const OpenAddTaskModal = () => {
+    setOpenModal(true);
+  };
 
   const token = sessionStorage.getItem("Token")
+
 
   useEffect(() => {
     fetch("https://localhost:7094/api/Tasks/Get",{
@@ -61,25 +66,16 @@ function Task() {
           {userTask.map((task) => ( 
             <Box key={task.taskId} columns={task} />   
           ))}
-        <button
-          className="
-            min-w-[220px]
-            h-fit
-            flex items-center gap-1.5
-            rounded-lg
-            px-3 py-2
-            text-sm
-          text-slate-500
-          hover:bg-slate-100
-            border">
-  <span className="text-base leading-none">＋</span>
-  New group
-</button>
-
-    </div>
-
+        <button className="min-w-[220px] h-fit flex items-center gap-1.5 rounded-lg
+            px-3 py-2 text-smtext-slate-500hover:bg-slate-100 border">
+              onClick{OpenAddTaskModal()}
+              <span className="text-base leading-none">＋</span>
+            New group
+        </button>
+        <AddTaskModal open={openModal} onClose={() => setOpenModal(false)}/>
       </div>
     </div>
+  </div>
   );
 }
 
