@@ -9,10 +9,6 @@ function Task() {
   const [loading,setLoading] = useState(true)
   const [openModal, setOpenModal] = useState(false);
 
-  const OpenAddTaskModal = () => {
-    setOpenModal(true);
-  };
-
   const token = sessionStorage.getItem("Token")
 
 
@@ -68,11 +64,9 @@ function Task() {
           ))}
         <button className="min-w-[220px] h-fit flex items-center gap-1.5 rounded-lg
             px-3 py-2 text-smtext-slate-500hover:bg-slate-100 border">
-              onClick{OpenAddTaskModal()}
               <span className="text-base leading-none">＋</span>
             New group
         </button>
-        <AddTaskModal open={openModal} onClose={() => setOpenModal(false)}/>
       </div>
     </div>
   </div>

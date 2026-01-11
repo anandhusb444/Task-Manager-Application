@@ -76,7 +76,7 @@ function Register() {
              onChange={(e)=>setPassword(e.target.value)}
           />
           <p className="font-poppins text-[10px] text-[#666666] ml-1 mt-1">
-            Already have an account? <a href="#" className="text-[#03001c] hover:text-[#02000f] cursor-pointer"><Link to={"/Login"}>Sign In</Link></a> 
+            Already have an account? <a href="#" className="text-[#03001c] hover:text-[#02000f] cursor-pointer"><Link to={"/"}>Sign In</Link></a> 
           </p>
           <button
             className="h-[33px] w-full max-w-[240px] border border-[#666666] rounded 
