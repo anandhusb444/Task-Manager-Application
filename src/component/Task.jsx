@@ -25,7 +25,7 @@ function Task() {
       }
       return respones.json();
     })
-    .then(objData => setUserTask(objData.data))
+    .then(objData => {setUserTask(objData.data), console.log(objData.data)})
     .catch(err => setError(err.message))
     .finally(() => setLoading(false))
   },[])

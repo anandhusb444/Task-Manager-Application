@@ -20,45 +20,38 @@ function Box({ columns }) {
 
   return (
     <div className="w-full sm:w-[320px] rounded-xl border border-slate-200 bg-white p-3 space-y-2">
-      
       {/* Column title */}
-      <div className="font-medium text-slate-800">
-        {columns.title}
-      </div>
+      <div className="font-medium text-slate-800">{columns.title}</div>
 
       {/* Task card */}
-      <div
-        key={columns.taskId}
-        className="
-          group relative
-          flex items-center justify-between
-          rounded-lg border border-emerald-200 bg-white
-          px-3 py-2
-          text-sm
-          hover:bg-slate-100
-        "
-      >
-        <span className="break-words pr-12">
-          {columns.description}
-        </span>
-
-        {/* Actions — INSIDE the div */}
+      {columns.description?.map((d) => (
         <div
+          key={d.id}
           className="
-            absolute right-3 top-1/2
-            flex -translate-y-1/2 items-center gap-3
-            text-slate-400
-            opacity-0 group-hover:opacity-100
-          "
-        >
-          <button className="hover:text-slate-700">
-            <img src={pen} alt="edit" className="h-3 w-3"/>
-          </button>
-          <button className="hover:text-slate-700 text-lg leading-none">
-            <img src={Dots} alt="menu" className="h-3 w-3"></img>
-          </button>
+      group relative
+      flex items-center justify-between
+      rounded-lg border border-emerald-200 bg-white
+      px-3 py-2
+      text-sm
+      hover:bg-slate-100">
+          <span className="break-words pr-12">{d.description}</span>
+
+          <div
+            className="
+        absolute right-3 top-1/2
+        flex -translate-y-1/2 items-center gap-3
+        text-slate-400
+        opacity-0 group-hover:opacity-100">
+            <button className="hover:text-slate-700">
+              <img src={pen} alt="edit" className="h-3 w-3" />
+            </button>
+
+            <button className="hover:text-slate-700 text-lg leading-none">
+              <img src={Dots} alt="menu" className="h-3 w-3" />
+            </button>
+          </div>
         </div>
-      </div>
+      ))}
 
       {/* Inline input */}
       {isAdding && (
