@@ -8,12 +8,19 @@ function Box({ columns }) {
   const [isAdding, setIsAdding] = useState(false);
   const [newValue, setNewValue] = useState("");
 
-  // ✅ keep local copy of tasks so UI updates immediately
+  //keep local copy of tasks so UI updates immediately
   const [tasks, setTasks] = useState(columns.description ?? []);
 
-  // ✅ API call (POST)
+  //API call (POST)
   const descriptionCall = async (textDesc, id) => {
     try {
+
+      const tempData = {
+        id:Date.now(),
+        description:textDesc
+      }
+
+      setTasks((prev) => [...prev,tempData])
       const response = await fetch(`https://localhost:7094/api/Tasks/${id}`, {
         method: "POST",
         headers: {
@@ -30,32 +37,10 @@ function Box({ columns }) {
 
       const data = await response.json();
       console.log("API Response:", data);
-      return data;
+      setNewValue("")
     } catch (err) {
       console.error("API Error:", err);
-      return null;
     }
-  };
-
-  // ✅ When user presses Enter
-  const handleAddTask = async () => {
-    const value = newValue.trim();
-    if (!value) return;
-
-    // ✅ call API
-    const apiResult = await descriptionCall(value, columns.taskId);
-
-    // ✅ update UI immediately (even if API returns nothing)
-    setTasks((prev) => [
-      ...prev,
-      {
-        id: apiResult?.id ?? Date.now(), // fallback id if API doesn't return
-        description: value,
-      },
-    ]);
-
-    setNewValue("");
-    setIsAdding(false);
   };
 
   return (
@@ -107,7 +92,7 @@ function Box({ columns }) {
             onChange={(e) => setNewValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleAddTask(newValue,columns.taskId);
+                descriptionCall(newValue,columns.taskId);
               }
             }}
             onBlur={() => {
