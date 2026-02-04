@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from './Box';
 import AddTaskModal from "./AddTaskModal"
+import CompleteModal from '../Modals/CompleteModal';
 
 
 function Task() {
@@ -62,7 +63,9 @@ function Task() {
           {userTask.map((task) => ( 
             <Box key={task.taskId} columns={task} />   
           ))}
-        <button className="min-w-[220px] h-fit flex items-center gap-1.5 rounded-lg
+        <button 
+            onClick={CompleteModal(true)}
+            className="min-w-[220px] h-fit flex items-center gap-1.5 rounded-lg
             px-3 py-2 text-smtext-slate-500hover:bg-slate-100 border">
               <span className="text-base leading-none">＋</span>
             New group

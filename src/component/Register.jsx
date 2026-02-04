@@ -26,7 +26,7 @@ function Register() {
       const text = await response.text();
       const data = text ? JSON.parse(text) : null;
       alert(data.message)
-      navigate("/login")
+      navigate("/")
     } else {
       console.log("Failed");
     }

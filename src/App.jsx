@@ -5,6 +5,7 @@ import {Routes, Route } from "react-router-dom";
 import Login from "./component/Login";
 import Box from "./component/Box";
 import Register from "./component/Register";
+import CompleteModal from "./Modals/CompleteModal";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,6 +17,7 @@ function App() {
         <Route path="Home" element={<Task/>}/>
         <Route path="Box" element={<Box/>}/>
         <Route path="Register" element={<Register/>}/>
+        <Route path="Complete" element={<CompleteModal/>}/>
       </>
     </Routes>
   );
