@@ -10,19 +10,19 @@ function Box({ columns }) {
   const [newValue, setNewValue] = useState("");
   const [tasks, setTasks] = useState(columns.description ?? []);
 
-  // ✅ modal state
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
 
+  // 🔹 Add task
   const descriptionCall = async (textDesc, id) => {
     if (!textDesc.trim()) return;
 
-    const tempData = {
-      id: Date.now(),
+    const tempTask = {
+      id: Date.now(), // temporary UI id
       description: textDesc,
     };
 
-    setTasks((prev) => [...prev, tempData]);
+    setTasks((prev) => [...prev, tempTask]);
 
     try {
       const response = await fetch(
@@ -35,13 +35,21 @@ function Box({ columns }) {
       );
 
       if (!response.ok) {
-        throw new Error("API failed with status " + response.status);
+        throw new Error("Create failed");
       }
 
       setNewValue("");
+      setIsAdding(false);
     } catch (err) {
-      console.error("API Error:", err);
+      console.error("Create error:", err);
     }
+  };
+
+  // 🔹 Delete task (called from modal)
+  const handleDeleteTask = (taskId) => {
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    setShowCompleteModal(false);
+    setSelectedTask(null);
   };
 
   return (
@@ -49,23 +57,23 @@ function Box({ columns }) {
       <div className="w-full sm:w-[320px] rounded-xl border border-slate-200 bg-white p-3 space-y-2">
         <div className="font-medium text-slate-800">{columns.title}</div>
 
-        {tasks.map((d) => (
+        {tasks.map((task) => (
           <div
-            key={d.id}
+            key={task.id}
             className="group relative flex items-center justify-between rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm hover:bg-slate-100"
           >
-            <span className="break-words pr-12">{d.description}</span>
+            <span className="break-words pr-12">
+              {task.description}
+            </span>
 
-            <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-3 text-slate-400 opacity-0 group-hover:opacity-100">
-              <button className="hover:text-slate-700">
+            <div className="absolute right-3 top-1/2 flex -translate-y-1/2 gap-3 opacity-0 group-hover:opacity-100">
+              <button>
                 <img src={pen} alt="edit" className="h-3 w-3" />
               </button>
 
-              {/* ✅ FIXED */}
               <button
-                className="hover:text-slate-700"
                 onClick={() => {
-                  setSelectedTask(d);
+                  setSelectedTask(task);
                   setShowCompleteModal(true);
                 }}
               >
@@ -76,41 +84,38 @@ function Box({ columns }) {
         ))}
 
         {isAdding && (
-          <div className="flex items-center rounded-lg border border-emerald-200 bg-white px-3 py-2">
-            <input
-              autoFocus
-              value={newValue}
-              onChange={(e) => setNewValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  descriptionCall(newValue, columns.taskId);
-                }
-              }}
-              onBlur={() => {
-                setNewValue("");
-                setIsAdding(false);
-              }}
-              placeholder="Enter task..."
-              className="w-full text-sm outline-none"
-            />
-          </div>
+          <input
+            autoFocus
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                descriptionCall(newValue, columns.taskId);
+              }
+            }}
+            onBlur={() => {
+              setNewValue("");
+              setIsAdding(false);
+            }}
+            className="w-full rounded-lg border px-3 py-2 text-sm"
+            placeholder="Enter task..."
+          />
         )}
 
         {!isAdding && (
           <button
             onClick={() => setIsAdding(true)}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50"
+            className="w-full rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-emerald-50"
           >
-            <span className="text-lg">＋</span>
-            add task
+            + add task
           </button>
         )}
       </div>
 
-      {/* ✅ MODAL RENDER */}
       {showCompleteModal && (
         <CompleteModal
           task={selectedTask}
+          onDelete={handleDeleteTask}
           onClose={() => {
             setShowCompleteModal(false);
             setSelectedTask(null);
